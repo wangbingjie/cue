@@ -102,7 +102,7 @@ def Ltotal(param=np.zeros((1,4,2)), wav=None, spec=None, edges=[HeII_edge, OII_e
 
 def Qtotal(param=np.zeros((4,2)), edges=[HeII_edge, OII_edge, HeI_edge, 912]):
     """wav in Angstrom; spec in Lnu"""
-    edges = nnp.hstack([1, edges])
+    edges = np.hstack([1, edges])
     log_Qtotal = np.zeros(len(edges)-1)
     for i in range(len(edges)-1):
         log_Qtotal[i] = param[i,1] + np.log10(Lsun) - np.log10(h) + np.log10(np.abs(edges[i+1]**param[i,0]
@@ -165,8 +165,8 @@ def spec_normalized(wav, spec):
     """
     wav_ind, = np.where(wav<912)
     if np.array(spec).ndim==1:
-        norm = np.abs(np.trapz(spec[wav_ind]*Lsun, x=c/wav[wav_ind])) 
-        return spec*Lsun*c/wav/norm 
+        norm = np.abs(np.trapz(spec[wav_ind]*Lsun, x=c/wav[wav_ind]))
+        return spec*Lsun*c/wav/norm
     elif np.array(spec).ndim==2:
         norm = np.abs(np.trapz(spec[:,wav_ind]*Lsun, x=c/wav[wav_ind], axis=1))
         return spec*Lsun*c/wav/norm.reshape((len(spec),1))
